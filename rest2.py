@@ -33,10 +33,9 @@ vinyl = [
 nextID = 4
 
 # Create a URL route in our application for "/"
-#@app.route('/')
-#def home():
-
-#    return "Hello World!"
+@app.route('/')
+def home():
+    return "Hello World!"
 
 #curl "http://127.0.0.1:5000/"
 @app.route('/vinyl')
