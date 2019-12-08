@@ -156,9 +156,11 @@
         console.log(JSON.stringify(vinyl))
         return vinyl
     }
+
+    host = window.location.origin
     function getAllAjax(){
         $.ajax({
-            "url": "http://127.0.0.1:5000/vinyl",
+            "url": host+"/vinyl",
             "method":"GET",
             "data":"",
             "dataType": "JSON",
