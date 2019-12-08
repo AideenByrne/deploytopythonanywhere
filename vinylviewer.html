@@ -1,0 +1,236 @@
+<html>
+    <head>
+        <title> view Vinyl</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+       
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <h1>Vinyl</h1>
+        <div> <button id="showCreateButton" onclick="showCreate()">Create</button></div>
+        <div>
+            <table class="table" id="vinylTable">
+                <tr>
+                        <th>id/th>
+                        <th>Artist</th>
+                        <th>Title</th>
+                        <th>Label</th>
+                        <th>Price</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                </tr>
+                
+            </table>
+        </div>
+        <div id='createUpdateForm' style="display: none">
+                <h2><span id="createLabel">Create a</span> <span id="updateLabel">update</span> Vinyl</h2>
+                <input type = "hidden" name="id"/>
+                Artist <input type="text" name="Artist"/> <br/>
+                Title <input type="text" name="Title"/> <br/>
+                Label <input type="text" name="Label"/> <br/>
+                Price <input type="number" name="Price"/> <br/>
+                <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
+                <span><button id="doUpdateButton" onclick="doUpdate()">Update</button></span>
+        </div>
+    </body>
+    <script>
+    function showCreate(){
+        document.getElementById('showCreateButton').style.display="none"
+        document.getElementById('vinylTable').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+        document.getElementById('createLabel').style.display="inline"
+        document.getElementById('updateLabel').style.display="none"
+        document.getElementById('doCreateButton').style.display="block"
+        document.getElementById('doUpdateButton').style.display="none"
+    }
+    function showViewAll(){
+        document.getElementById('showCreateButton').style.display="block"
+        document.getElementById('vinylTable').style.display="block"
+        document.getElementById('createUpdateForm').style.display="none"
+    }
+    function showUpdate(buttonElement){
+        document.getElementById('showCreateButton').style.display="none"
+        document.getElementById('vinylTable').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+        document.getElementById('createLabel').style.display="none"
+        document.getElementById('updateLabel').style.display="inline"
+        document.getElementById('doCreateButton').style.display="none"
+        document.getElementById('doUpdateButton').style.display="block"
+        
+        var rowElement = buttonElement.parentNode.parentNode
+       
+        
+        var vinyl = getVinylFromRow(rowElement)
+        populateFormWithVinyl()
+    }
+    function doCreate(){
+        var form = document.getElementById('createUpdateForm')
+        var vinyl = {}
+  
+        vinyl.Artist = form.querySelector('input[name="Artist"]').value
+        vinyl.Title = form.querySelector('input[name="Title"]').value
+        vinyl.Label = form.querySelector('input[name="Label"]').value
+        vinyl.Price = form.querySelector('input[name="Price"]').value
+        console.log(JSON.stringify(vinyl))
+        createVinylAjax(vinyl)
+       
+      
+    }
+    function doUpdate(){
+        var vinyl = getVinylFromForm();
+        var rowElement = document.getElementById(vinyl.id);
+        updateVinylAjax(vinyl);
+        setVinylInRow(rowElement,vinyl);
+       
+        clearForm();
+        showViewAll();
+    }
+    function doDelete(r){
+        var tableElement = document.getElementById('vinylTable');
+        var rowElement = r.parentNode.parentNode;
+        var index = rowElement.rowIndex;
+        deleteVinylAjax(rowElement.getAttribute("id"));
+        tableElement.deleteRow(index);
+    }
+    function addVinylToTable(vinyl){
+        var tableElement = document.getElementById('vinylTable')
+        var rowElement = tableElement.insertRow(-1)
+        rowElement.setAttribute('id',vinyl.id)
+        var cell1 = rowElement.insertCell(0);
+        cell1.innerHTML = vinyl.id
+        var cell2 = rowElement.insertCell(1);
+        cell2.innerHTML = vinyl.Artist
+        var cell3 = rowElement.insertCell(2);
+        cell3.innerHTML = vinyl.Title
+        var cell4 = rowElement.insertCell(3);
+        cell4.innerHTML = vinyl.Label
+        var cell5 = rowElement.insertCell(4);
+        cell5.innerHTML = vinyl.Price
+        var cell5 = rowElement.insertCell(5);
+        cell5.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+        var cell6 = rowElement.insertCell(6);
+        cell6.innerHTML = '<button onclick=doDelete(this)>delete</button>'
+    }
+    function clearForm(){
+        var form = document.getElementById('createUpdateForm')
+        form.querySelector('input[name="Artist"]').value=''
+        form.querySelector('input[name="Title"]').value=''
+        form.querySelector('input[name="Label"]').value=''
+        form.querySelector('input[name="Price"]').value=''
+
+    }
+    function getVinylFromRow(rowElement){
+        var vinyl ={}
+        vinyl.id = rowElement.getAttribute('id')
+        vinyl.Artist = rowElement.cells[1].firstChild.textContent
+        vinyl.Title = rowElement.cells[2].firstChild.textContent
+        vinyl.Label = rowElement.cells[3].firstChild.textContent
+        vinyl.Price = parseInt(rowElement.cells[4].firstChild.textContent,10)
+        return vinyl
+    }
+    function setVinylInRow(rowElement, vinyl){
+        rowElement.cells[0].firstChild.textContent= vinyl.id
+        rowElement.cells[1].firstChild.textContent= vinyl.Artist
+        rowElement.cells[2].firstChild.textContent= vinyl.Title
+        rowElement.cells[3].firstChild.textContent= vinyl.Label
+        rowElement.cells[4].firstChild.textContent= vinyl.Price
+    }
+    function populateFormWithVinyl(vinyl){
+        var form = document.getElementById('createUpdateForm')
+        form.querySelector('input[name="id"]').disabled = true
+        form.querySelector('input[name="id"]').value  = vinyl.id
+        form.querySelector('input[name="Artist"]').value= vinyl.Artist
+        form.querySelector('input[name="Title"]').value= vinyl.Title
+        form.querySelector('input[name="Label"]').value= vinyl.Label
+        form.querySelector('input[name="Price"]').value= vinyl.Price
+        return vinyl
+    }
+    function getVinylFromForm(){
+        var form = document.getElementById('createUpdateForm')
+        var vinyl = {}
+        vinyl.id = form.querySelector('input[name="id"]').value
+        vinyl.Artist = form.querySelector('input[name="Artist"]').value
+        vinyl.Title = form.querySelector('input[name="Title"]').value
+        vinyl.Label = form.querySelector('input[name="Label"]').value
+        vinyl.Price = parseInt(form.querySelector('input[name="Price"]').value,10)
+        console.log(JSON.stringify(vinyl))
+        return vinyl
+    }
+    function getAllAjax(){
+        $.ajax({
+            "url": "http://127.0.0.1:5000/vinyl",
+            "method":"GET",
+            "data":"",
+            "dataType": "JSON",
+            "success":function(result){
+                //console.log(result);
+                for (vinyl of result){
+                    addVinylToTable(vinyl);
+                }
+                
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function createVinylAjax(vinyl){
+        
+        console.log(JSON.stringify(vinyl));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/vinyl",
+            "method":"POST",
+            "data":JSON.stringify(vinyl),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                vinyl.id = result.id  
+                addVinylToTable(vinyl) 
+                clearForm()
+                showViewAll() 
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function updateVinylAjax(vinyl){
+        console.log(JSON.stringify(vinyl));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/vinyl/"+encodeURI(vinyl.id),
+            "method":"PUT",
+            "data":JSON.stringify(vinyl),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+               // console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function deleteVinylAjax(id){
+       // console.log(JSON.stringify('deleting  ' + id));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/vinyl/"+encodeURI(id),
+            "method":"DELETE",
+            "data":"",
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    getAllAjax();
+  
+    
+    </script>
+</html>

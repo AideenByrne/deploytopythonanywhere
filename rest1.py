@@ -5,7 +5,6 @@ from vinylDAO import vinylDAO
 
 # Create the application instance
 app = Flask(__name__, static_url_path='', static_folder='.')
-CORS(app)
 
 #curl "http://127.0.0.1:5000/"
 @app.route('/vinyl')
