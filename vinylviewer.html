@@ -180,7 +180,7 @@
         
         console.log(JSON.stringify(vinyl));
         $.ajax({
-            "url": "http://127.0.0.1:5000/vinyl",
+            "url": host+"/vinyl",
             "method":"POST",
             "data":JSON.stringify(vinyl),
             "dataType": "JSON",
@@ -200,7 +200,7 @@
     function updateVinylAjax(vinyl){
         console.log(JSON.stringify(vinyl));
         $.ajax({
-            "url": "http://127.0.0.1:5000/vinyl/"+encodeURI(vinyl.id),
+            "url": host+"/vinyl"+encodeURI(vinyl.id),
             "method":"PUT",
             "data":JSON.stringify(vinyl),
             "dataType": "JSON",
@@ -217,7 +217,7 @@
     function deleteVinylAjax(id){
        // console.log(JSON.stringify('deleting  ' + id));
         $.ajax({
-            "url": "http://127.0.0.1:5000/vinyl/"+encodeURI(id),
+            "url": host+"/vinyl"+encodeURI(id),
             "method":"DELETE",
             "data":"",
             "dataType": "JSON",
