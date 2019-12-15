@@ -4,7 +4,7 @@ from flask import Flask, jsonify,  request, abort, make_response
 from vinylDAO import vinylDAO
 
 # Create the application instance
-app = Flask(__name__, static_url_path='', static_folder='.')
+app = Flask(__name__, static_url_path='', static_folder='..')
 
 #curl "http://127.0.0.1:5000/"
 @app.route('/vinyl')
