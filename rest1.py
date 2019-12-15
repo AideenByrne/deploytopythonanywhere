@@ -1,7 +1,6 @@
 #Aideen Byrne Big Project
 #!flask/bin/python
 from flask import Flask, jsonify,  request, abort, make_response
-from flask_cors import CORS
 from vinylDAO import vinylDAO
 
 # Create the application instance
