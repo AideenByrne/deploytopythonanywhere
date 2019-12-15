@@ -38,7 +38,7 @@ def create():
 
 
 #curl -i -H "Content-Type: application/json" -X PUT http://127.0.0.1:5000/vinyl/1 -d "{\"Title\":\"X\"}"
-@app.route('/vinyl/<int:id>', methods=["PUT"])
+@app.route('/vinyl/<int:id>', methods=['PUT'])
 def update(id): 
     foundVinyl = vinylDAO.findByID(id)
     if not foundVinyl:

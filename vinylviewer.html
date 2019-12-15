@@ -11,7 +11,7 @@
         <div>
             <table class="table" id="vinylTable">
                 <tr>
-                        <th>id/th>
+                        <th>id</th>
                         <th>Artist</th>
                         <th>Title</th>
                         <th>Label</th>
@@ -163,7 +163,7 @@
     function getAllAjax(){
         $.ajax({
             "url": host+"/vinyl",
-            "method":"GET",
+            "method":'GET',
             "data":"",
             "dataType": "JSON",
             "success":function(result){
@@ -183,7 +183,7 @@
         console.log(JSON.stringify(vinyl));
         $.ajax({
             "url": host+"/vinyl",
-            "method":"POST",
+            "method":'POST',
             "data":JSON.stringify(vinyl),
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
@@ -203,7 +203,7 @@
         console.log(JSON.stringify(vinyl));
         $.ajax({
             "url": host+"/vinyl"+encodeURI(vinyl.id),
-            "method":"PUT",
+            "method":'PUT',
             "data":JSON.stringify(vinyl),
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
@@ -219,8 +219,8 @@
     function deleteVinylAjax(id){
        // console.log(JSON.stringify('deleting  ' + id));
         $.ajax({
-            "url": host+"/vinyl"+encodeURI(id),
-            "method":"DELETE",
+            "url": host+"/vinyl/"+encodeURI(id),
+            "method":'DELETE',
             "data":"",
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
