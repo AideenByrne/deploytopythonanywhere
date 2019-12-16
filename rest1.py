@@ -6,7 +6,7 @@ from vinylDAO import vinylDAO
 # Create the application instance
 app = Flask(__name__, static_url_path='', static_folder='.')
 
-#curl "http://127.0.0.1:5000/"
+#curl "http://127.0.0.1:5000/vinyl"
 @app.route('/vinyl')
 def getALL():
     results = vinylDAO.getAll()
