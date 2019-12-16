@@ -1,4 +1,4 @@
-<html>
+<DOCTYPE !html>
     <head>
         <title> view Vinyl</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -219,7 +219,7 @@
         });
     }
     function deleteVinylAjax(id){
-       console.log(JSON.stringify('deleting  ' +id));
+       //console.log(JSON.stringify('deleting  ' +id));
         $.ajax({
             "url": host+"/vinyl"+encodeURI(id),
             "method":"DELETE",
@@ -239,4 +239,4 @@
   
     
     </script>
-</html>
+</DOCTYPE !html>
