@@ -1,6 +1,6 @@
 #Aideen Byrne Big Project
 #!flask/bin/python
-from flask import Flask, jsonify,  request, abort, make_response
+from flask import Flask, jsonify, request, abort
 from vinylDAO import vinylDAO
 
 # Create the application instance
