@@ -34,7 +34,7 @@
         </div>
     </body>
 
-<script>
+    <script>
     function showCreate(){
         document.getElementById('showCreateButton').style.display="none"
         document.getElementById('vinylTable').style.display="none"
@@ -91,7 +91,7 @@
         var tableElement = document.getElementById('vinylTable');
         var rowElement = r.parentNode.parentNode;
         var index = rowElement.rowIndex;
-        deleteVinylAjax(rowElement.getAttribute("vinyl.id"));
+        deleteVinylAjax(rowElement.getAttribute("id"));
         tableElement.deleteRow(index);
     }
     function addVinylToTable(vinyl){
@@ -108,10 +108,10 @@
         cell4.innerHTML = vinyl.Label
         var cell5 = rowElement.insertCell(4);
         cell5.innerHTML = vinyl.Price
-        var cell5 = rowElement.insertCell(5);
-        cell5.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
-        var cell6 = rowElement.insertCell(6);
-        cell6.innerHTML = '<button onclick=doDelete(this)>Delete</button>'
+        var cell6 = rowElement.insertCell(5);
+        cell6.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+        var cell7 = rowElement.insertCell(6);
+        cell7.innerHTML = '<button onclick=doDelete(this)>Delete</button>'
     }
     function clearForm(){
         var form = document.getElementById('createUpdateForm')
@@ -124,7 +124,7 @@
     }
     function getVinylFromRow(rowElement){
         var vinyl ={}
-        vinyl.id = rowElement.cells[0].firstChild.textContent
+        vinyl.id = rowElement.getAttribute('id')
         vinyl.Artist = rowElement.cells[1].firstChild.textContent
         vinyl.Title = rowElement.cells[2].firstChild.textContent
         vinyl.Label = rowElement.cells[3].firstChild.textContent
@@ -169,7 +169,7 @@
             "data":"",
             "dataType": "JSON",
             "success":function(result){
-                console.log(result);
+                //console.log(result);
                 for (vinyl of result){
                     addVinylToTable(vinyl);
                 }
@@ -190,7 +190,7 @@
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
             "success":function(result){
-                console.log(result);
+                //console.log(result);
                 vinyl.id = result.id  
                 addVinylToTable(vinyl) 
                 clearForm()
@@ -210,7 +210,7 @@
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
             "success":function(result){
-            console.log(result);
+            //console.log(result);
                   
             },
             "error":function(xhr,status,error){
@@ -218,16 +218,16 @@
             }
         });
     }
-    function deleteVinylAjax(vinyl){
-       console.log(JSON.stringify('deleting  ' + vinyl.id));
+    function deleteVinylAjax(id){
+       console.log(JSON.stringify('deleting  ' +id));
         $.ajax({
-            "url": host+"/vinyl"+encodeURI(vinyl.id),
+            "url": host+"/vinyl"+encodeURI(id),
             "method":"DELETE",
             "data":"",
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
             "success":function(result){
-            console.log(result);
+            //console.log(result);
                   
             },
             "error":function(xhr,status,error){
@@ -238,5 +238,5 @@
     getAllAjax();
   
     
-</script>
+    </script>
 </html>
