@@ -163,9 +163,9 @@
         console.log(JSON.stringify(vinyl))
         return vinyl
     }
-
-    host = window.location.origin
+    
     function getAllAjax(){
+        host = window.location.origin
         $.ajax({
             "url": host+"/vinyl",
             "method":'GET',
@@ -185,7 +185,7 @@
     }
 
     function createVinylAjax(vinyl){
-        
+        host = window.location.origin  
         console.log(JSON.stringify(vinyl));
         $.ajax({
             "url": host+"/vinyl",
@@ -207,6 +207,7 @@
     }
 
     function updateVinylAjax(vinyl){
+        host = window.location.origin
         console.log(JSON.stringify(vinyl));
         $.ajax({
             "url": host+"/vinyl"+encodeURI(vinyl.id),
@@ -215,8 +216,7 @@
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
             "success":function(result){
-            //console.log(result);
-                  
+            //console.log(result);      
             },
             "error":function(xhr,status,error){
                 console.log("error: "+status+" msg:"+error);
@@ -225,7 +225,7 @@
     }
 
     function deleteVinylAjax(id){
-       //console.log(JSON.stringify('deleting  ' +id));
+        host = window.location.origin
         $.ajax({
             "url": host+"/vinyl"+encodeURI(id),
             "method":"DELETE",

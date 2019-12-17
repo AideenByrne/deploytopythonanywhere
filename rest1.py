@@ -1,10 +1,12 @@
 #Aideen Byrne Big Project
-#!flask/bin/python
+
 from flask import Flask, jsonify, request, abort
 from vinylDAO import vinylDAO
+from flask_cors import CORS
 
 # Create the application instance
 app = Flask(__name__, static_url_path='', static_folder='.')
+CORS(app)
 
 #curl "http://127.0.0.1:5000/vinyl"
 @app.route('/vinyl')
@@ -23,7 +25,7 @@ def create():
     
     if not request.json:
         abort(400)
-    # other checking 
+    
     vinyl = {
         "Artist": request.json['Artist'],
         "Title": request.json['Title'],
@@ -37,7 +39,7 @@ def create():
 
 
 #curl -i -H "Content-Type: application/json" -X PUT http://127.0.0.1:5000/vinyl/1 -d "{\"Title\":\"X\"}"
-@app.route('/vinyl/<int:id>', methods=['PUT'])
+@app.route('/vinyl/<int:id>', methods=['GET','PUT'])
 def update(id): 
     foundVinyl = vinylDAO.findByID(id)
     if not foundVinyl:
@@ -62,7 +64,7 @@ def update(id):
     return jsonify(foundVinyl)
 
 # curl -X DELETE "http://127.0.0.1:5000/vinyl/1"
-@app.route('/vinyl/<int:id>', methods=["DELETE"])
+@app.route('/vinyl/<int:id>', methods=['GET','DELETE'])
 def delete(id):
     vinylDAO.delete(id)
     return jsonify({"done":True})
