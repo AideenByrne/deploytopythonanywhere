@@ -7,7 +7,7 @@ from flask_cors import CORS, cross_origin
 # Create the application instance
 app = Flask(__name__, static_url_path='', static_folder='.')
 CORS(app)
-
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 #curl "http://127.0.0.1:5000/vinyl"
 @app.route('/vinyl')
