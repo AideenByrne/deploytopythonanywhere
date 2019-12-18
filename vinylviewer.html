@@ -210,7 +210,7 @@
         host = window.location.origin
         console.log(JSON.stringify(vinyl));
         $.ajax({
-            "url": host+"/vinyl"+encodeURI(vinyl.id),
+            "url": host+"/vinyl/"+encodeURI(vinyl.id),
             "method":"PUT",
             "data":JSON.stringify(vinyl),
             "dataType": "JSON",
@@ -227,7 +227,7 @@
     function deleteVinylAjax(id){
         host = window.location.origin
         $.ajax({
-            "url": host+"/vinyl"+encodeURI(id),
+            "url": host+"/vinyl/"+encodeURI(id),
             "method":"DELETE",
             "data":"",
             "dataType": "JSON",
